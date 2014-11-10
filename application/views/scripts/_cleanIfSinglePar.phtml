@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+  /* This helper script expects a string in HTML format ('content').
+   */
+
+    // If the content is a single paragraph, don't need <p> </p> tags 
+    // because the content is already in another block tag (<dt> or <dd>).
+    $content = $this->content;
+    $paragraphs = explode('<p>', $content);
+    if ( count($paragraphs) == 2 )
+    {
+        // strip off beginning/end paragraph
+        $begP = strpos($content, '<p>');
+        $endP = strrpos($content, '</p>');
+        $lenComment = $endP - ($begP + 3);
+        $prefix = $begP == 0 ? "" : substr($content, 0, $begP - 1);
+        $content = $lenComment > 0
+                    ? substr($content, $begP + 3, $lenComment) : "";
+        $content = $prefix . $content .  substr($content, $endP + 4);
+    }
+
+    echo $content;
+
+?>

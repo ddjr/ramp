@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* This helper script expects an external table name, an external table 
+ * reference object, and a Zend_Form object containing field elements.
+ *
+ */
+
+// Establish status codes.
+$statusCodes = array(
+        // Ramp_Table_SetTable::UNKNOWN => 'icon-question-sign',
+        Ramp_Table_SetTable::BLANK =>
+            array('icon' => 'icon-minus', 'text' => 'Empty'),
+        Ramp_Table_SetTable::PARTIAL =>
+            array('icon' => 'icon-adjust',
+                  'text' => 'Missing recommended fields'),
+        Ramp_Table_SetTable::GOOD =>
+            array('icon' => 'icon-ok',
+                  'text' => 'Has all recommended fields')
+              /* Other possibilities: 'icon-ok', 'icon-ok-sign' */
+    );
+
+// Get the objects passed to this partial helper.
+$table = $this->table;
+$status = $this->status;
+
+// Create a status indicator for whether all recommended fields have 
+// been set for this record in the external table.
+$icon = $statusCodes[$status]['icon'];
+$text = $statusCodes[$status]['text'];
+echo "<i class='$icon statusCode' title='$text'> </i>\n";
+
+?>

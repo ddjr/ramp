@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* This helper script is a temporary "stub" for setting-specific 
+ * helpers.
+*/
+
+$visibleFieldInfo = $this->visibleFieldInfo;
+$keyFields = $this->keyFields;
+$tableValues = $this->tableValues;
+
+$highlightEveryN = 2;
+
+?>
+
+<div id='record-table'>
+<table>
+
+<!-- DISPLAY COLUMN HEADERS -->
+<tr>
+    <?php
+    foreach($visibleFieldInfo as $fieldName => $field) :
+        $title = $field->getFieldFootnote();
+        $title = $title ? " title='$title'" : "";
+        echo "<th" . $this->escape($title) . ">";
+        echo $this->escape($field->getLabel()) . "</th>";
+    endforeach;
+    ?>
+</tr>
+
+<!-- DISPLAY RECORDS -->
+<?php
+$rowNum = 0;
+foreach($tableValues as $recordValues) :
+?>
+
+    <!-- Display table entries in rows... -->
+    <tr>
+    <?php
+
+    // Determine fields to display, whether to highlight, and which 
+    // fields to pass as parameters to select and delete requests.
+    $rowNum++;
+    $rowSpecParams = array();
+    $class = ($rowNum % $highlightEveryN) ? "" : " class='highlighted'";
+    foreach ( $keyFields as $keyFieldName => $ignoredFieldInfo ) :
+        $rowSpecParams[$keyFieldName] = $recordValues[$keyFieldName];
+    endforeach;
+    ?>
+
+    <!-- Display visible field values. -->
+    <?php
+    foreach($visibleFieldInfo as $fieldName => $field) :
+        $colHeading = $field->getLabel();
+        $title = $field->getFieldFootnote();
+        $title = $title ? "$colHeading: $title" : $colHeading;
+        $title = " title='$title'";
+        echo "<td" . $this->escape($class) . $this->escape($title) . ">";
+        echo $this->escape($recordValues[$fieldName]) . "</td>";
+    endforeach;
+    ?>
+
+    </tr>
+
+<?php endforeach; ?>
+
+</table>
+</div>  <!-- End of "record-table" -->

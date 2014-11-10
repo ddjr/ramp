@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* This helper script expects an array containing the set table
+ * object and a Zend_Form object containing field elements.
+ *
+ */
+
+// Get the objects passed to this partial helper.
+$extRefs = $this->table->getExtTableReferences();
+$formData = $this->form->getValues();
+
+// Handle all external references.
+echo "<ul>";
+foreach ( $extRefs as $extTable => $refObj ) :
+
+    // Determine the connection expression that establishes the 
+    // connection with this external table reference.
+    // Get the ADD setting to determine the "completeness" of the 
+    // external record (all/some/no recommended fields filled in).
+    $searchFields = $refObj->xlFieldValuePairs($formData);
+    $controller = $refObj->getController();
+    try {
+        $externalTable = $refObj->getViewingSeq()->getSetTableForAdding();
+        $status = $externalTable->getStatusOfRecord($searchFields);
+    }
+    catch(Exception $e)
+    {
+        throw new Exception("Reference to $extTable at bottom of page: " .
+            $e->getMessage());
+    }
+
+    echo "<li>";
+    echo $this->partial("table/_externalRef.phtml",
+                    array('table' => $extTable, 'status' => $status));
+
+    // Create a link to the external table.
+    $setting = urlencode($refObj->getViewingSeqName());
+    $urlParams = array('controller' => $controller, 'action' => 'search') +
+                 array(TableController::SETTING_NAME => $setting) +
+                 $searchFields;
+
+    echo "<a href=\"" . $this->url($urlParams, null, true) . "\">";
+    echo $refObj->getTitle();
+    echo "</a>";
+    echo "</li>";
+endforeach;
+echo "</ul>";
+
+?>

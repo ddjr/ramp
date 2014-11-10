@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+  /* This helper script expects an array with the following:
+   *    - the title         ('title')
+   *    - the description   ('description')
+   *    - the footnote      ('footnote')
+   *    - instructions relevant to this page    ('instructions')
+   *    - information messages      ('msgs')
+   *    - error messages            ('errormsgs')
+   *    - whether to show footnote as tooltip rather than explicitly
+   *            ('footnoteAsTooltip': optional, defaults to false)
+   */
+
+require_once('Michelf/Markdown.php');
+use \Michelf\Markdown;
+
+$title = Markdown::defaultTransform($this->escape($this->title));
+
+$footnote = Markdown::defaultTransform($this->escape($this->footnote));
+$subtleFootnote = isset($this->footnoteAsTooltip) ?
+                     $this->footnoteAsTooltip : false;
+$footnoteAsTooltip = $subtleFootnote ? " title='" .  $footnote . "'" : "";
+
+$instructions = Markdown::defaultTransform($this->escape($this->instructions));
+
+?>
+
+<div id="title-block">  <!-- Contains title, footnotes, and instructions -->
+<?php echo "<h2 $footnoteAsTooltip>" . $title; ?></h2>
+<div id="table-notes">
+<?php if ( ! $subtleFootnote ) : ?>
+    <?php echo $footnote; ?>
+<?php endif; ?>
+<?php echo $instructions; ?>
+</div>  <!-- End of "table-notes" -->
+</div>  <!-- End of "title-block" -->
+
+<?php
+/*
+    These are cool, but too big/bulky without further style adjustments.
+<div id="info-messages" class='alert alert-info'>
+<div id="info-messages" class='alert alert-error'>
+ */
+?>
+<div id="info-messages" class='text-info'>
+<ul class='unstyled list-unstyled'>   <!-- Bootstrap 2 & 3, respectively -->
+<?php foreach ( $this->msgs as $msg ) : ?>
+    <?php echo $this->partial("table/_stringInTag.phtml",
+            array('tag'=>'li', 'value'=>$msg)); ?>
+<?php endforeach; ?>
+</ul>
+</div>  <!-- End of "info-messages" -->
+
+<div id="error-messages" class='text-danger'>
+<ul class='unstyled list-unstyled'>   <!-- Bootstrap 2 & 3, respectively -->
+<?php foreach ( $this->errormsgs as $msg ) : ?>
+    <?php echo $this->partial("table/_stringInTag.phtml",
+            array('tag'=>'li', 'value'=>$msg)); ?>
+<?php endforeach; ?>
+</ul>
+</div>  <!-- End of "error-messages" -->
+

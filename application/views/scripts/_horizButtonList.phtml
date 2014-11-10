@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* This helper script expects an array of button labels.
+*/
+
+// Technique for turning button labels into valid name identifiers taken
+// from Zend_Form_Element.
+$charset = '^a-zA-Z0-9_\x7f-\xff';
+
+if ( ! isset($this->buttonList) )
+{
+    $this->buttonList = array();
+}
+
+?>
+
+<!-- Display buttons -->
+<div id='actions' class="btn-toolbar">
+
+<!-- Put primary button in a group by itself -->
+<div id='primary_button' class="btn-group">
+<?php
+if ( ! empty($this->buttonList) ) :
+    $buttonLabel = $this->buttonList[0];
+    $buttonLabel = $this->escape($buttonLabel);
+    $buttonId = $this->escape(preg_replace('/[' . $charset . ']/', '', 
+                                    (string) $buttonLabel));
+    echo "<input type='submit' name='submit' id='$buttonId'
+            value='$buttonLabel' class='btn btn-primary' />\n";
+    array_shift($this->buttonList);
+endif;
+?>
+</div>
+
+<div id='other_buttons' class="btn-group">
+<?php
+foreach ( $this->buttonList as $buttonLabel ) :
+    $buttonLabel = $this->escape($buttonLabel);
+    $buttonId = $this->escape(preg_replace('/[' . $charset . ']/', '', 
+                                    (string) $buttonLabel));
+    echo "<input type='submit' name='submit' id='$buttonId'
+            value='$buttonLabel' class='btn' />\n";
+endforeach;
+?>
+</div>
+
+</div>   <!-- end of "btn-toolbar" -->

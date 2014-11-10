@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+require_once('Michelf/Markdown.php');
+use \Michelf\Markdown;
+
+// Heading may be specified with the activity or may be the
+// default: "Choose an activity".
+$userSpecifiedHeading = $this->activityTitle;   // set in controller
+$heading = $userSpecifiedHeading ? : "Choose an activity:";
+
+?>
+
+<div id='activityPage'>
+
+<?php if ( $heading != "" ) echo "<h2>$heading</h2>" ?>
+
+
+<ul class='unstyled list-unstyled'>   <!-- Bootstrap 2 & 3, respectively -->
+<div id="info-messages" class="text-info">
+<?php if ( $this->message != "" ) echo "<li>$this->message</li>\n"; ?>
+</div>  <!-- End of "info-messages" -->
+
+<div id="error-messages" class="text-danger">
+<?php if ( ! empty($this->errMsg) ) : ?>
+    <?php echo "<li>$this->errMsg</li>\n"; ?>
+<?php endif; ?>
+</div>  <!-- End of "error-messages" -->
+</ul>
+
+<form id='activityList' action='' method='post'>
+
+<div>
+
+<?php
+if ( isset($this->activityList) && is_array($this->activityList) )
+{
+    foreach ( $this->activityList as $key => $activity )
+    {
+        if ( $activity->isComment() )
+        {
+            $commentClass = $activity->isInactive()
+                                    ? "disabledComment" : "comment";
+            $comment = $this->escape($activity->getComment());
+            $comment = Markdown::defaultTransform($comment);
+            echo "<div class='$commentClass'>$comment</div>\n";
+        }
+        else if ( $activity->isSeparator() )
+        {
+            echo "<hr />\n";
+        }
+        else
+        {
+            // Get and format title for button.
+            $title = $this->escape($activity->getTitle());
+            // $title = Markdown::defaultTransform($title);
+
+            // Get and format description.
+            $desc = $this->escape($activity->getDescription());
+            $desc = Markdown::defaultTransform($desc);
+
+            // Should button be disabled?
+            $disabledOrNot = $activity->isInactive() ? "disabled" : "";
+            echo "<div class='row'>";
+            echo "<p class='title span2'><input type='submit' " .
+                "name='$key' id='$key' class='btn btn-small' value='$title' " .
+                "$disabledOrNot>" .  "</p>\n";
+            echo "<div class='$disabledOrNot description span10'>";
+            echo $this->partial("_cleanIfSinglePar.phtml",
+                    array('content'=>$desc));
+            echo "</div>\n";
+            echo "</div>\n";
+        }
+    }
+}
+
+?>
+
+</div>
+
+</form>
+
+</div>
+

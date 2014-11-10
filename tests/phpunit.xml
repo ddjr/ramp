@@ -1,0 +1,68 @@
+<phpunit bootstrap="./BootstrapZend.php" colors="true">
+    <testsuites>
+    <testsuite name="Model Test Suite">
+        <!-- Define ordered test suite. -->
+        <file>./ramp/RegistryFacadeTest.php</file>
+        <file>./ramp/activity/IniReaderTest.php</file>
+        <file>./ramp/table/IniReaderTest.php</file>
+
+        <file>./ramp/activity/SpecificationTest.php</file>
+        <file>./ramp/activity/GatewayTest.php</file>
+            <!-- depends on Activity_IniReader and Activity_Specification -->
+
+        <file>./ramp/table/TVSGatewayTest.php</file>
+            <!-- depends on RampIniReader -->
+
+        <file>./ramp/table/DbTableValidValuesSourceTest.php</file>
+        <file>./ramp/table/DbTableTableTest.php</file>
+        <file>./ramp/table/BasicFieldWithNoDBAccessTest.php</file>
+        <file>./ramp/table/BasicFieldWithDBAccessTest.php</file>
+            <!-- depends on DbTable_Table -->
+
+        <file>./ramp/table/FieldWithExtConnTest.php</file>
+        <file>./ramp/table/FieldWithExtConnAndDBAccessTest.php</file>
+            <!-- depends on DbTable_Table, DbTable_ValidValuesSource,
+                 TVSGateway -->
+
+        <file>./ramp/table/SetTableTest.php</file>
+            <!-- depends on DbTable_Table, TVSGateway, Field,
+                 and ExternalTableRef -->
+
+        <file>./ramp/table/TableViewSequenceTest.php</file>
+            <!-- depends on TVSGateway and SetTable -->
+        <file>./ramp/table/TVSFactoryTest.php</file>
+            <!-- depends on TableViewSequence -->
+        <file>./ramp/table/ExternalTableRefTest.php</file>
+            <!-- depends on SetTable, TVSFactory -->
+    </testsuite>
+    <!--  Might define more complete, but unordered test suites in future.
+    <testsuite name="Application Test Suite">
+        <directory>./application</directory>
+    </testsuite>
+    <testsuite name="Library Test Suite">
+        <directory>./library</directory>
+    </testsuite>
+    -->
+    </testsuites>
+    
+    <filter>
+        <!-- If Zend Framework is inside your project's library,
+             uncomment this filter.  [Has been uncommented.] -->
+        <whitelist>
+            <directory suffix=".php">../library/</directory>
+            <directory suffix=".php">../application/</directory>
+            <exclude>
+                <directory suffix=".phtml">../application/</directory>
+                <!-- <file>../application/Bootstrap.php</file> [???] -->
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <!-- [AB: Ran out of memory trying to create coverage report]
+    <logging>
+        <log type="coverage-html" target="./log/coverage" charset="UTF-8"
+             yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
+     </logging>
+     -->
+
+</phpunit>

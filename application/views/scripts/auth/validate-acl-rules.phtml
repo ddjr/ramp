@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+$this->title = "ACL Validation";
+$this->headTitle($this->title);
+?>
+
+<h2>Access Control List Validation</h2>
+<?php if ( count($this->invalid) == 0 ) { ?>
+<p>All roles and resources used in the database have been defined.</p>
+<?php
+} else
+{
+    echo "<ul>\n";
+    foreach ( $this->invalid as $ruleNumber => $attributes )
+    {
+        $both = count($attributes) == 2;
+        echo "<li><strong>Rule $ruleNumber:</strong> ";
+        if ( isset($attributes['role']) )
+        {
+            echo "invalid role (" . $attributes['role'] . ") ";
+        }
+        if ( $both )
+        {
+            echo "and ";
+        }
+        if ( isset($attributes['resource']) )
+        {
+            echo "invalid resource (" . $attributes['resource'] . ") ";
+        }
+        echo "</li>\n";
+    }
+    echo "</ul>\n";
+}
+?>

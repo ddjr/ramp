@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp
+ * @copyright  Copyright (c) 2013 Ashton Galloway
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* This script defines the overall layout for Ramp/Smart pages.
+ *
+ * Updated for Twitter-Bootstrap, Ashton Galloway, March 2013
+ */
+
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+
+$configs = Ramp_RegistryFacade::getInstance();
+$look = $configs->getLookAndFeel();
+$tabTitle = $look['shortName'];
+if ( ! empty($tabTitle) )
+{
+    $this->headTitle($tabTitle)->setSeparator(' - ');
+}
+$icon = $look['icon'];
+$pageTitle = $look['title'];
+$pageSubTitle = $look['subtitle'];
+$footer = $look['footer'];
+// Get the appropriate cascading stylesheet.
+$stylesheet = $look['rampStyleSheet'];
+
+echo $this->doctype();
+
+?>
+<!-- html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" -->
+<html>
+
+<head>
+    <?php echo $this->headMeta(); ?>
+
+    <?php echo $this->headTitle(); ?>
+
+    <?php echo $this->headLink(); ?>
+
+    <?php if ( isset($icon) ) : ?>
+        <link rel='icon' href='<?php echo $icon; ?>'>
+    <?php endif; ?>
+
+    <link rel="stylesheet"
+        href="<?php echo $this->baseUrl('tb_assets/css/bootstrap.css')?>" />
+
+    <script src="<?php echo $this->baseUrl('tb_assets/js/jquery.js')?>"
+        type="text/javascript"></script>
+
+    <script src="<?php echo $this->baseUrl('tb_assets/js/bootstrap.js')?>"
+        type="text/javascript"></script>
+
+    <?php if ( isset($stylesheet) ) : ?>
+    <link rel='stylesheet'
+        href='<?php echo $this->baseUrl($stylesheet) ?>'>
+    <?php endif; ?>
+
+</head>
+
+<body>
+    <!-- Uncomment line below when moving to Bootstrap 3?  In any case,
+         when "sr-only" is defined.
+    <a href="#content" class="sr-only">Skip to main content</a>
+    -->
+    <div class="container">
+        <?php echo $this->partial("_header.phtml",
+            array('title'=>$pageTitle,
+                  'subtitle'=>$pageSubTitle)); ?>
+        <?php
+        if ( ! isset($this->amHoldingLock) || ! $this->amHoldingLock ) :
+            echo $this->navigation()->menu()->setPartial("_menu.phtml");
+        endif;
+        ?>
+        <div id="content" class="row">
+            <?php echo $this->layout()->content; ?>
+        </div>
+        <?php echo $this->authDebugging; ?>
+        <?php echo $this->partial("_footer.phtml", array('footer'=>$footer)); ?>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+/*
+ * Structural and typographic (i.e., non-color) styles used
+ * throughout RAMP
+ */
+
+
+/* Generic styles used throughout display pages. */
+
+/* Font style used for the application name. (Color set in color file.) */
+.appName {
+    font-family: /* Georgia, */ "Times New Roman", Times, serif;
+}
+
+.hidden {
+    display:    none;    /* Worked before switching to Twitter Bootstrap ! */
+}
+
+.invisible {
+    height:    0px;     /* not working; hidden text field still taking space */
+}
+
+/* Font sizes  (menu font sizes are in menu.css) */
+html, body {
+    font-size: 12px;
+}
+
+h1 {
+    font-size: 35px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+div#activityPage h2 {
+    font-size: 20px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+h4 {
+    font-size: 14px;
+}
+
+h5 {
+    font-size: 12px;
+}
+
+h6 {
+    font-size: 10px;
+}
+
+h1 small {
+    font-size: small;  /* or 10px */
+}
+
+#footer {
+    font-size: 0.8em;
+}
+
+.btn {
+    font-size: 12px;
+}
+
+
+/* Styles used in header (banner area with application name). */
+
+h1 {
+    font-family: /* Georgia, */ "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h1 small {
+    font-weight: normal;
+}
+
+.loggedInAs {
+    font-family: /* Georgia, */ "Times New Roman", Times, serif;
+    font-style: italic;
+}
+
+
+/* Styles for informational & error messages on many pages. */
+
+.text-info, .text-warning, .text-danger, .text-success
+{
+    margin:     0;
+    padding:    0;
+    font-size:      90%;
+    font-style:     italic;
+}
+
+div#info-messages ul, div#error-messages ul {
+    padding:    0;
+    list-style:     none;
+}
+
+
+/* Styles used by activity list pages */
+
+div#activityPage {
+    font-size: medium;
+}
+
+div#activityPage .comment, div#activityPage .disabledComment {
+    text-align: left;
+    font-style: italic;
+}
+
+div#activityPage hr {
+    width:      90%;
+    margin:     0 0 5px 0;
+}
+
+div#activityPage .title {
+    text-align:     right;
+    padding-right:  10px;
+}
+
+div#activityPage .description {
+    padding-left:  10px;
+    padding-bottom:  5px;
+}
+
+div#activityPage .disabled {
+    font-style: italic;
+}
+
+
+/* Styles used by table processing pages */
+
+div#tableActions {
+    padding:    10px 0px;
+}
+
+div#title-block h2, div#table-notes p  {
+    text-align: center;
+}
+
+div#table-notes p {             /* Table "footnotes" */
+    font-size:      90%;
+    font-style:     italic;
+}
+
+div#record-block .control-group
+{
+    margin-top: 5px;    /* not doing anything? */
+    margin-bottom: 10px;
+}
+
+div#record-block select.comparator
+{
+    font-size: 60%;
+}
+
+#record-list table
+{
+    margin-left:    auto;
+    margin-right:   auto;
+    width:          auto;
+}
+
+#record-table table, #record-split-table table
+{
+    margin-left:    auto;
+    margin-right:   auto;
+    width:          90%;
+}
+
+#record-list td, #record-list th,
+#record-table td, #record-table th,
+#record-split-table td, #record-split-table th
+{
+    line-height:    16px;
+    padding-top:    5px;
+    padding-bottom: 5px;
+}
+
+#record-list td, #record-list th
+{
+    padding-left:   20px;
+    padding-right:  20px;
+}
+
+th.center
+{
+    text-align:     center;
+}
+
+#record-list td.select, #record-table td.select, #record-split-table td.select,
+#record-list td.delete, #record-table td.delete, #record-split-table td.delete,
+#record-list td.completionStatus, #record-table td.completionStatus, 
+#record-split-table td.completionStatus
+{
+    width:          10px;
+    padding-left:   10px;
+    padding-right:  10px;
+    text-align:     center;
+}
+
+#external-refs li {
+    margin-left: 20px;
+    float:left;
+    list-style:none;
+}
+
+div#record-block.split-view .control-group
+{
+    margin-top:  2px;
+    margin-bottom:  2px;
+}
+
+div#record-block.split-view .control-label
+{
+    width: 100px;
+}
+
+div#record-block.split-view .controls
+{
+    margin-left: 120px;
+}
+
+div#record-block.split-view button,
+div#record-block.split-view input,
+div#record-block.split-view select,
+div#record-block.split-view textarea,
+div#record-block.split-view label,
+div#record-block.split-view
+{
+    font-size: 90%;
+    height: 100%;
+    line-height: 100%;
+    margin: 0 0 0 0;
+    padding: 3px 3px;
+}
+
+
+/* Styles used by documents */
+
+div#documentPage p {
+    font-size: 14px;
+}
+
+div#documentPage {
+    padding:    10px 0px;
+}
+
+div#documentPage h1 {
+    font-family: inherit;
+    font-style: inherit;
+}
+
+div#documentPage h1 small {
+    font-size: 16px;        /* same size as h3 above */
+}
+
+div#documentPage code, div#documentPage pre {
+    font-family: "Courier New", monospace;
+    border: 0;
+}
+
+div#documentPage pre code {
+    padding: 0 0 0 10px;
+    border: 0;
+}
+
+div#documentPage blockquote {
+    font-family: inherit;
+    padding: 0 0 0 30px;
+    border-left: 0;
+}
+
+div#documentPage #footer {
+    margin:     0 0 0 0;
+    padding:    0 0 0 0;
+}
+
+
+
+
+/* Styles used when printing, especially the table display format. */
+@media print {
+
+    /*
+    body, p, th, td, select, th input.button, button, .textfield {
+        font-size:  x-small;
+    }
+        */
+
+    h1 {
+        font-family: "Century Schoolbook", Times, serif;
+        font-size: large;
+    }
+
+    h2 {
+        font-size: medium;
+    }
+
+    h3, h4, h5 {
+        font-size: small;
+    }
+
+    th, td {
+        vertical-align: top;
+    }
+
+    .loggedInAs, div#menu-bar li, #TableActions, th.tableActions,
+    td.select, td.delete, td.completionStatus, .hidden, .noprint {
+        display: none;
+    }
+
+}
+
+/* Generic styles used throughout display pages. */
+
+/*
+#scrn-read {
+	display:none;
+}
+
+body,html {
+	min-width: 770px;
+	padding:0;
+	margin:0;
+}
+
+th, td {
+    vertical-align: top;
+}
+
+*/

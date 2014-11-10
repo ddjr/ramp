@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp
+ * @copyright  Copyright (c) 2012 Alyce Brady
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* Determine footer (if any) */
+$footer = empty($this->footer)
+                ? ""
+                : $this->footer . ", " . date("d M Y h:i a");
+
+echo "<div id='footer-wrapper'>\n";
+    echo "<div id='footer'>$footer</div>\n";
+echo "</div>\n";
+
+?>
+
+<!--
+<div id="footer-wrapper">
+    <div id="footer">Copyright &copy;2012 Alyce Brady.</div>
+</div>
+-->
+

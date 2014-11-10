@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * RAMP: Records and Activity Management Program
+ *
+ * LICENSE
+ *
+ * This source file is subject to the BSD-2-Clause license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.cs.kzoo.edu/ramp/LICENSE.txt
+ *
+ * @category   Ramp
+ * @package    Ramp_Views
+ * @copyright  Copyright (c) 2012-2014 Alyce Brady
+ *             (http://www.cs.kzoo.edu/~abrady)
+ * @license    http://www.cs.kzoo.edu/ramp/LICENSE.txt   Simplified BSD License
+ *
+ */
+
+/* This helper script expects an array containing the set table
+ * object and a Zend_Form object containing field elements.
+ *
+ * Attribution: the structure of rendering label, element, and errors 
+ * separately, to allow the insertion of href links, came from:
+ * http://monzee.wordpress.com/2009/02/23/decorators-are-hard-lets-go-shopping/
+ *
+ * Updated for Twitter-Bootstrap, Ashton Galloway, March 2013
+ */
+
+// Expected parameters.
+$form = $this->form;
+$fields = $this->table->getFields();
+$isSearch = isset($this->search) && $this->search;
+
+// Key information from form.
+$formType = $form->getFormType();
+$isModifyingForm = $formType == Ramp_Form_Table_TableRecordEntry::ADD ||
+                   $formType == Ramp_Form_Table_TableRecordEntry::EDIT;
+$fieldElts = $form->getFieldElements();
+$searchOpElts = $form->getComparatorElements();
+$suffix = Ramp_Form_Table_TableRecordEntry::SEARCH_COMP_SUFFIX;
+
+// How to set up field lookup link if field value comes from external table.
+$extSearchParams = array('controller' => 'table', 'action' => 'search');
+
+?>
+
+<?php  /* <div class="control-group row"> */ ?>
+<?php foreach ( $fieldElts as $name => $elt ) :
+    $field = $fields[$name];
+    echo "<div class='control-group'>\n";
+    echo "<div id='$name-label' class='control-label'>";
+    echo $elt->renderLabel() . "\n";
+    echo "</div>\n";
+    echo "<div class='row controls'>\n";
+    if ( $field->isVisible() && $isSearch ) :
+        $opSearchElt = $searchOpElts[$name];
+        echo $opSearchElt->renderElem() . "\n";
+    endif;
+    echo $elt->renderElem() . "\n";
+    echo $elt->renderErrors();
+    if ( $isModifyingForm && $field->isExternalTableLink() &&
+         ! $form->fieldIsReadOnly($field) ) :
+        $setting = urlencode($field->getLinkedTableSetting());
+        $urlParams = $extSearchParams +
+                        array(TableController::SETTING_NAME => $setting);
+        echo "<a href=\"" . $this->url($urlParams, null, true) .
+                "\" target=\"_blank\" class='lookup'><i";
+        echo "   class='icon-search' title='Select'></i></a>\n";
+    endif;
+    $footnote = $field->getFieldFootnote();
+    if ( ! empty($footnote) ) :
+        echo "(" . $field->getFieldFootnote() . ")\n";
+    endif;
+    echo "</div>\n";
+    echo "</div>\n";
+endforeach; ?>
+
