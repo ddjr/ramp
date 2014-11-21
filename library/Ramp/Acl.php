@@ -226,6 +226,10 @@ class Ramp_Acl extends Zend_Acl
                     // Has authorization for this resource; go on to next.
                     continue;
                 }
+		else
+		{
+			Zend_Registry::set('conditional', $this->_authInfo->getAccessRules());
+		}
             }
 
             // Authorization was needed, but user wasn't authorized.

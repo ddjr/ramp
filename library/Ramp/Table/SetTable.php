@@ -1108,10 +1108,12 @@ class Ramp_Table_SetTable
 
         // Construct SQL query.
         $db = $this->_dbModel->getAdapter();
+	$value = Zend_Registry::get('conditional');
+	echo "Conditional value: " . $value;
         $select = $db->select()
                         ->from($this->_dbTableName,
                                $this->getLocalSelectObjects())
-			->where('ID > 1');
+			->where('ID > 6');
         if ( ! empty($this->_sortOrder) )
         {
             $select->order(array_map("trim", explode(',', $this->_sortOrder)));
