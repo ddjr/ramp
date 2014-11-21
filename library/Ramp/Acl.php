@@ -319,7 +319,8 @@ class Ramp_Acl extends Zend_Acl
 
         // SYNTAX CHECK CONTROLLER: all actions
         $this->add(new Zend_Acl_Resource('table-syntax::index'));
-
+	
+	$this->add(new Zend_acl_Resource('table-syntax::dba');
         // BUILT-IN TABLES:
         // Get a list of all Table controller actions.
         $actions = self::getActionCategoryXL();
