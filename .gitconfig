@@ -1,0 +1,9 @@
+[user]
+	name = Jae Hyun Choe
+	email = k11jc02@kzoo.edu
+[merge]
+	tool = vimdiff
+[credential]
+	helper = cache --timeout=3600
+[color]
+	ui = true
