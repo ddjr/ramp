@@ -1110,7 +1110,8 @@ class Ramp_Table_SetTable
         $db = $this->_dbModel->getAdapter();
         $select = $db->select()
                         ->from($this->_dbTableName,
-                               $this->getLocalSelectObjects());
+                               $this->getLocalSelectObjects())
+			->where('ID > 1');
         if ( ! empty($this->_sortOrder) )
         {
             $select->order(array_map("trim", explode(',', $this->_sortOrder)));
